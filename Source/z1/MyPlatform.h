@@ -10,6 +10,7 @@
 
 class UBoxComponent;
 class UStaticMeshComponent;
+class USceneComponent;
 class ACharacter;
 
 UCLASS()
@@ -23,6 +24,10 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
+	// Root transform anchor; the box and mesh hang off it so they can be resized independently.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platform")
+	TObjectPtr<USceneComponent> Root;
 
 	// Physical collision: blocks the player so they can stand on top of it.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Platform")

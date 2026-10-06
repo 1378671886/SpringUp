@@ -4,6 +4,7 @@
 
 #include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
@@ -13,8 +14,11 @@ AMyPlatform::AMyPlatform()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SetRootComponent(Root);
+
 	PlatformBox = CreateDefaultSubobject<UBoxComponent>(TEXT("PlatformBox"));
-	SetRootComponent(PlatformBox);
+	PlatformBox->SetupAttachment(Root);
 	PlatformBox->SetBoxExtent(FVector(100.0f, 100.0f, 16.0f));
 	PlatformBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	PlatformBox->SetCollisionObjectType(ECC_WorldStatic);
@@ -22,7 +26,7 @@ AMyPlatform::AMyPlatform()
 	PlatformBox->SetMobility(EComponentMobility::Movable);
 
 	PlatformMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlatformMesh"));
-	PlatformMesh->SetupAttachment(PlatformBox);
+	PlatformMesh->SetupAttachment(Root);
 	PlatformMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
